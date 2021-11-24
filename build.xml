@@ -1,0 +1,40 @@
+<project name="PixelGames_Breakout" default="package">
+
+  <property name="bin" value="${basedir}/build"/>
+  <property name="jar" value="${ant.project.name}.jar"/>
+  <property name="src" value="${basedir}/source"/>
+  <property name="res" value="${basedir}/assets"/>
+  <property name="lib" value="${basedir}/library"/>
+  <property name="main" value="breakout.Main"/>
+
+  <target name="clean">
+    <delete dir="${bin}"/>
+    <delete file="${jar}"/>
+  </target>
+
+  <target name="prepare">
+    <mkdir dir="${bin}"/>
+  </target>
+
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src}"
+           destdir="${bin}"
+           debug="true"
+           includeantruntime="false">
+      <classpath>
+        <fileset dir="${lib}" includes="**/*.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="package" depends="compile">
+    <jar destfile="${jar}">
+      <manifest>
+        <attribute name="Main-Class" value="${main}"/>
+      </manifest>
+      <fileset dir="${bin}"/>
+      <fileset dir="${res}"/>
+      <zipgroupfileset dir="${lib}" includes="*.jar"/>
+    </jar>
+  </target>
+</project>
